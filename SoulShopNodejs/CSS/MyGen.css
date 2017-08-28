@@ -1,0 +1,139 @@
+* {
+    font-family: "Microsoft YaHei UI";
+}
+
+/*container补充样式*/
+@media (max-width: 992px) {
+
+    .container-lowlg-width-p100 {
+        width: 100%;
+    }
+
+    .container-lowlg-nop {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+/*tab和row、col共用时的样式覆盖*/
+.tab-content > .tab-pane.row.active {
+    display: flex;
+}
+
+/*取消文本 中心划线 灰色*/
+.money-cancel {
+    text-decoration: line-through;
+    color: #cdcdcd;
+}
+
+/*我的标题*/
+.my-title-12 {
+    font-size: 1.2rem;
+}
+
+.my-title-11 {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .my-title-12 {
+       font-size: 1rem;
+    }
+
+    .my-title-11 {
+        font-size: 1rem;
+    }
+}
+
+/*卡片中的描述*/
+.card-text-description {
+    color: #cdcdcd;
+}
+
+/*取消radius*/
+.radius-0 {
+    border-radius: 0;
+}
+
+.text-oneline-overhidden {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/*小号字*/
+.my-smaller-font {
+    font-size: 0.8rem;
+}
+
+/*btn增加样式*/
+.btn {
+    cursor: pointer;
+}
+
+/*图标大小*/
+.icon-middle {
+    width: 2rem;
+}
+
+@media (max-width: 768px) {
+    .icon-middle {
+        width: 1.5rem;
+    }
+}
+
+
+.icon-small {
+    width: 1rem;
+}
+
+/*卡片按钮组布局*/
+.card-btn-group {
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/*加入购物车按钮样式*/
+.join-shopcar {
+    margin-bottom: 1rem;
+    width: 75%;
+    color: #cccccc !important;
+    display: none;
+}
+
+.join-shopcar:hover {
+    color: #ffffff !important;
+}
+
+.join-shopcar.activeshow {
+    display: block;
+}
+
+.check-detail {
+    width: 75%;
+    color: #cccccc !important;
+    display: none;
+}
+
+.check-detail:hover {
+    color: #ffffff !important;
+}
+
+.check-detail.activeshow {
+    display: block;
+}
+
+/*钱*/
+.hot-money {
+    opacity: 0.8;
+    color: #d9534f;
+    font-weight: bolder;
+}

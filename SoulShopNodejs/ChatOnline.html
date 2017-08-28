@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatOnline</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+              user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>导航模板页</title>
+    <link href="CSS/bootstrap.css" rel="stylesheet" />
+    <link href="CSS/MyGen.css" rel="stylesheet" />
+    <link href="CSS/ChatOnline.css" rel="stylesheet" />
+    <script src="socket.io/socket.io.js"></script>
+    <script src="JS/jquery-3.2.1.min.js"></script>
+    <script src="JS/tether.min.js"></script>
+    <script src="JS/bootstrap.js"></script>
+    <script src="JS/MyGen.js"></script>
+    <script src="JS/ChatOnline.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+    <!--小侧栏-->
+    <div class="chat-nav-part">
+        <div class="chat-nav-part-item chat-people" style="background-image: url(Icon/ChatOnline/联系人.png)"></div>
+    </div>
+    <!--大侧栏-->
+    <div class="chat-left-part">
+        <div class="chat-people-search">
+            <input type="text" style="background-image: url(Icon/NavView/search.png) " />
+        </div>
+        <ul>
+            <li class="active" style="background-image: url(Image/Main/img-sales7.jpg)">
+                <div class="chat-name">Soul1</div>
+                <div class="chat-content">hello Soul!</div>
+            </li>
+            <li class="" style="background-image: url(Image/Main/img-sales6.jpg)">
+                <div class="chat-name">Soul1</div>
+                <div class="chat-content">hello Soul!</div>
+            </li>
+            <li class="" style="background-image: url(Image/Main/img-sales5.jpg)">
+                <div class="chat-name">Soul1</div>
+                <div class="chat-content">hello Soul!</div>
+            </li>
+            <li class="" style="background-image: url(Image/Main/img-sales4.jpg)">
+                <div class="chat-name">Soul1</div>
+                <div class="chat-content">hello Soul!</div>
+            </li>
+        </ul>
+    </div>
+    <!--聊天窗口-->
+    <div class="chat-wrap">
+        <div class="chat-top"></div>
+        <div class="chat-body">
+            <ul>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>六包明一三段袋装，七包明一一段袋装，打包，卡子送货时搭给我。</div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>刚刚那个买明一A听就是上次下大雨带小孩来买牛奶的说下面宝宝生日送了个滑板车。</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>那他奶粉还在我这里买？</div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>你刚刚搭了货？</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>没搭。</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>他说别人送了，问我们有没有送。</div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>刚刚发了什么?掉线了 </div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>有什么事情也不用脑袋想一想。</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>别人在他那买赚钱的玩艺才会送，买别的东西怎么可能会送，他钱多吗？</div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>买光明，南仔什么的你一听送个滑板车都可以，你自己看着操作。</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>你是要明一A不?</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>袋装。</div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>只有各5包 </div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>只拿三段袋。</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>三段的我这有人要吃呀,差不多要来拿了。</div>
+                </li>
+                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
+                    <div>一段的不要呀? </div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>我这里卖掉一箱袋，人家指定要三段。</div>
+                </li>
+                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
+                    <div>5包都给你呀? </div>
+                </li>
+            </ul>
+        </div>
+        <div class="chat-input">
+            <div class="chat-input-tools">
+                <div class="chat-input-smell" style="background-image: url(Icon/ChatOnline/笑脸.png)"></div>
+                <div class="chat-input-doc" style="background-image: url(Icon/ChatOnline/文件.png)"></div>
+            </div>
+            <div class="chat-input-work">
+                <textarea></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
