@@ -299,6 +299,11 @@
 
             .chat-input .chat-input-tools .chat-input-doc {
                 background-size: 75%;
+                margin-right: auto;
+            }
+
+            .chat-input .chat-input-tools .chat-input-send {
+                background-size: 65%;
             }
 
         .chat-input .chat-input-work {

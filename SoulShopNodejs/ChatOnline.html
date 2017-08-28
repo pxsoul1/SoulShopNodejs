@@ -32,22 +32,7 @@
             <input type="text" style="background-image: url(Icon/NavView/search.png) " />
         </div>
         <ul>
-            <li class="active" style="background-image: url(Image/Main/img-sales7.jpg)">
-                <div class="chat-name">Soul1</div>
-                <div class="chat-content">hello Soul!</div>
-            </li>
-            <li class="" style="background-image: url(Image/Main/img-sales6.jpg)">
-                <div class="chat-name">Soul1</div>
-                <div class="chat-content">hello Soul!</div>
-            </li>
-            <li class="" style="background-image: url(Image/Main/img-sales5.jpg)">
-                <div class="chat-name">Soul1</div>
-                <div class="chat-content">hello Soul!</div>
-            </li>
-            <li class="" style="background-image: url(Image/Main/img-sales4.jpg)">
-                <div class="chat-name">Soul1</div>
-                <div class="chat-content">hello Soul!</div>
-            </li>
+         
         </ul>
     </div>
     <!--聊天窗口-->
@@ -55,69 +40,36 @@
         <div class="chat-top"></div>
         <div class="chat-body">
             <ul>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>六包明一三段袋装，七包明一一段袋装，打包，卡子送货时搭给我。</div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>刚刚那个买明一A听就是上次下大雨带小孩来买牛奶的说下面宝宝生日送了个滑板车。</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>那他奶粉还在我这里买？</div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>你刚刚搭了货？</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>没搭。</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>他说别人送了，问我们有没有送。</div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>刚刚发了什么?掉线了 </div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>有什么事情也不用脑袋想一想。</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>别人在他那买赚钱的玩艺才会送，买别的东西怎么可能会送，他钱多吗？</div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>买光明，南仔什么的你一听送个滑板车都可以，你自己看着操作。</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>你是要明一A不?</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>袋装。</div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>只有各5包 </div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>只拿三段袋。</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>三段的我这有人要吃呀,差不多要来拿了。</div>
-                </li>
-                <li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)">
-                    <div>一段的不要呀? </div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>我这里卖掉一箱袋，人家指定要三段。</div>
-                </li>
-                <li class="chat-message-others" style="background-image: url(Image/Main/img-sales5.jpg)">
-                    <div>5包都给你呀? </div>
-                </li>
+
             </ul>
         </div>
         <div class="chat-input">
             <div class="chat-input-tools">
-                <div class="chat-input-smell" style="background-image: url(Icon/ChatOnline/笑脸.png)"></div>
+                <div class="chat-input-smell" data-toggle="modal" data-target="#exampleModalLive" style="background-image: url(Icon/ChatOnline/笑脸.png)"></div>
                 <div class="chat-input-doc" style="background-image: url(Icon/ChatOnline/文件.png)"></div>
+                <div class="chat-input-send" id="sendBtn" style="background-image: url(Icon/ChatOnline/发送.png)"></div>
             </div>
             <div class="chat-input-work">
-                <textarea></textarea>
+                <textarea id="chatInputContent"></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLiveLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLiveLabel">Name Setting</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>我的名字</label><input id="myNameInput" class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="saveContackInfoBtn" type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
     </div>
