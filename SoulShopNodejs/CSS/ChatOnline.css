@@ -81,8 +81,10 @@
     }
 
         .chat-left-part ul li {
+            position: relative;
             height: 4rem;
             padding-left: 4rem;
+            padding-right: 1.5rem;
             list-style: none;
             background: no-repeat left 0.6rem top 0.6rem;
             background-size: 2.8rem;
@@ -90,6 +92,19 @@
             flex-direction: column;
             align-items: flex-start;
             justify-content: space-around;
+        }
+
+        /*未读消息提示*/
+        .chat-left-part ul li.has-notread-info:after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            right: 0.45rem;
+            top: 1.7rem;
+            width: 0.6rem;
+            height: 0.6rem;
+            z-index: 2;
+            background-color: #d9534f;
         }
 
         .chat-left-part ul li > div {
@@ -103,7 +118,6 @@
         .chat-left-part ul li:hover {
             cursor: pointer;
         }
-
 
         .chat-left-part ul li.active {
             background-color: #e5e5e5;
@@ -151,7 +165,21 @@
         width: 100%;
         height: 5rem;
         flex: 0 1 auto;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 8rem;
     }
+
+        .chat-top .my-icon {
+             flex: 0 0 3rem;
+             max-width: 3rem;
+        }
+
+        .chat-top .my-nickname {
+            flex: 0 0 5rem;
+            max-width: 5rem;
+        }
 
     /*聊天区*/
     .chat-body {

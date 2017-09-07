@@ -153,8 +153,8 @@ function addNewMsgToNewMsgRec(type, msg) {
      newMessageRecords.push(createNewMessage(type, msg));
 }
 
-//设置非当前聊天对象的新消息顶置 并设置提示
-function setNMsgNotTheContackTop(senderName) {
+//设置非当前聊天对象的新消息顶置、设置最新消息、设置提示
+function setNMsgNotTheContackTop(senderName, type/*0为设置未读，1为不设置未读*/) {
     var objContackLis = $(".chat-left-part ul li");
     var objWaittingMove = objContackLis.filter(function () {
         if ($(this).find(".chat-name").text() == senderName) {
@@ -163,7 +163,41 @@ function setNMsgNotTheContackTop(senderName) {
         return false;
     });
 
-    objWaittingMove.insertBefore($(objContackLis[0]));
+    if (!type){
+        setHasNotReadStatus(objWaittingMove);//添加未读状态
+    }
+    objWaittingMove.find(".chat-content").text(getContackBaseOnName(senderName).lastMessage);//更新最新信息
+    objWaittingMove.insertBefore($(objContackLis[0]));//li插入顶
+}
+
+//添加未读状态
+function setHasNotReadStatus(objLi/*li对象*/) {
+    objLi.addClass("has-notread-info");
+}
+
+//为联系人添加lastMessage数据
+function setContackLastMsg(msg/*字符串msg*/, contack/*联系人对象*/) {
+    contack.lastMessage = msg;
+}
+
+//ajax获取个人信息
+function getUserInfo() {
+    $.ajax({
+        type: "get",
+        url: "http://localhost:1898/Shop/Shop/GetUserInfo",
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        success: function (data) {
+            if (data.code == 1) {
+                var nickName = data.nickName
+                var icon = data.icon;
+                $(".my-nickname").text(nickName);
+                $(".my-icon").text(icon);
+            } else {
+                alert("未获取用户信息")
+            }
+        }
+    })
 }
 
 $(function () {
@@ -192,6 +226,9 @@ $(function () {
     var objToolsIcon = $(".chat-input .chat-input-tools > div");
     objToolsIcon.width(objToolsIcon.height());
 
+    //0.获取当前用户信息
+    getUserInfo();
+
     //1.ajax获取当前用户聊天列表 填充联系人列表
     //2.初始化当前聊天对象名字
     createContackForTest();
@@ -201,6 +238,8 @@ $(function () {
     //联系人列表点击事件
     var objPeopleLi = $(".chat-left-part ul li");
     objPeopleLi.click(function () {
+        $(this).removeClass("has-notread-info");
+
         if ($(this).hasClass("active")) {
 
         } else {
@@ -223,10 +262,11 @@ $(function () {
 
     //socket.io事件监听
     $("#sendBtn").click(function () {//发送按钮点击事件
-        var msg = $("#chatInputContent").val();;//将输入数据填入新聊天记录数组中
+        var msg = $("#chatInputContent").val();//将输入数据填入新聊天记录数组中
         addNewMsgToNewMsgRec(0, msg);
         sendMessageToContack();//将输入数据填入聊天窗口
-        nowContack.lastMessage = msg;//将与当前联系的最后一条消息重置
+        setContackLastMsg(msg, nowContack);//将与当前联系的最后一条消息重置
+        setNMsgNotTheContackTop(nowContack.name, 1);//置顶该联系人
     });
 
     $("#chatInputContent").keyup(function (event) { //文本区回车事件响应
@@ -234,7 +274,8 @@ $(function () {
             var msg = $("#chatInputContent").val();//将输入数据填入新聊天记录数组中
             addNewMsgToNewMsgRec(0, msg);
             sendMessageToContack();//将输入数据填入聊天窗口
-            nowContack.lastMessage = msg;//将与当前联系的最后一条消息重置
+            setContackLastMsg(msg, nowContack);//将与当前联系的最后一条消息重置
+            setNMsgNotTheContackTop(nowContack.name, 1);//置顶该联系人
         }
     });
 
@@ -246,12 +287,12 @@ $(function () {
         if (senderName == nowContack.name) {//如果发件人为当前聊天对象
             addNewMsgToNewMsgRec(1, msgContent);//将传回数据填入新聊天记录数组中
             addOtherMessageLi(msgContent);//将传回的数据填入聊天窗口
-            nowContack.lastMessage = msg;//将与当前联系的最后一条消息重置
+            setContackLastMsg(msgContent, nowContack);//将与当前联系的最后一条消息重置
+            setNMsgNotTheContackTop(senderName, 1);//置顶该联系人
         } else {//如果发件人不为当前聊天对象
             myMessageRecords[senderName].push(createNewMessage(1, msgContent));//将信息存入聊天记录类
-            var theContack = getContackBaseOnName(senderName);
-            theContack.lastMessage = msgContent;//将与当前联系的最后一条消息重置
-            setNMsgNotTheContackTop(senderName);//置顶该联系人
+            setContackLastMsg(msgContent, getContackBaseOnName(senderName));//设置联系人最后信息
+            setNMsgNotTheContackTop(senderName, 0);//置顶该联系人
         }
     });
 });

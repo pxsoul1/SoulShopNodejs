@@ -46,6 +46,7 @@
     <Content Include="CSS\bootstrap.css" />
     <Content Include="CSS\ChatOnline.css" />
     <Content Include="CSS\MyGen.css" />
+    <Content Include="favicon.ico" />
     <Content Include="Icon\ChatOnline\发送.png" />
     <Content Include="Icon\ChatOnline\文件.png" />
     <Content Include="Icon\ChatOnline\笑脸.png" />
