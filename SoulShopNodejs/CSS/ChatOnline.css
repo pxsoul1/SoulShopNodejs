@@ -60,6 +60,7 @@
     }
 
         .chat-people-search input {
+            padding-left: 1rem;
             display: block;
             height: 2rem;
             width: 70%;
@@ -161,7 +162,6 @@
 
     /*顶栏*/
     .chat-top {
-        background-color: #f9f9f9;
         width: 100%;
         height: 5rem;
         flex: 0 1 auto;

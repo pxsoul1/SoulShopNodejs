@@ -45,7 +45,8 @@ io.on('connection', function (socket) {
         //var toSocket = _.findWhere(io.sockets.sockets, { id: toSocketId });//根据id获取指定的Socket
         var toSocket = sockets[toSocketId];
         //发送至客户端信息格式 senderName + ":" + contackName
-        toSocket.emit('chat message', senderName + ":" + contackMsg);
+        if (!(toSocket == undefined)) 
+            toSocket.emit('chat message', senderName + ":" + contackMsg);
         //io.emit('chat message', msg);//广播：将客户端数据发送至源客户端和其他客户端（用于聊天窗口）
     });
 });
