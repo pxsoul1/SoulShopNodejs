@@ -27,9 +27,38 @@
         opacity: 1;
     }
 
-    .chat-people {
-
+    .chat-nav-part .chat-people {
     }
+
+    .chat-nav-part .chat-mine {
+        position: relative;
+        background-size: 60% 60%;
+    }
+
+    .chat-nav-part .chat-mine.active {
+        opacity: 1;
+    }
+
+        .chat-nav-part .chat-mine .chat-mine-content {
+            display:none;
+        }
+        
+        .chat-nav-part .chat-mine.active .chat-mine-content {
+            background-color: #e5e5e5;
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            top: 0;
+            left: 52px;
+        }
+
+            .chat-nav-part .chat-mine .chat-mine-content .my-icon {
+                height: 100%;
+                box-shadow: 0 0 2px 1px #cdcdcd;
+            }
 
 /*大侧栏*/
 .chat-left-part {
@@ -168,18 +197,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        width: 8rem;
     }
-
-        .chat-top .my-icon {
-             flex: 0 0 3rem;
-             max-width: 3rem;
-        }
-
-        .chat-top .my-nickname {
-            flex: 0 0 5rem;
-            max-width: 5rem;
-        }
 
     /*聊天区*/
     .chat-body {

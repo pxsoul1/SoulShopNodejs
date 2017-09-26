@@ -1,6 +1,8 @@
 var socket = io();//socket变量初始化
 var nowContack = null;//当前的聊天对象名字
+var nowTheContack = null;//当前的聊天对象
 var myName = null;//我的名字
+var myIcon = null;//我的头像
 var contackList = [];//联系人数组
 var myMessageRecords = {};//聊天记录类
 var newMessageRecords = [];//与当前对象的新纪录数组
@@ -18,12 +20,13 @@ function createNewMessage(type, msg, isRead) {
 }
 
 //联系人构造函数
-function createContack(name, order, lastMessage) {
+function createContack(name, order, lastMessage, headIcon) {
 
     var contack = {
         name: name,
         order: order,
-        lastMessage: lastMessage
+        lastMessage: lastMessage,
+        headIcon: headIcon
     };
 
     return contack;
@@ -45,7 +48,7 @@ function getListContacks() {
             var length = listContacks.length;
             for (i = 0; i < length; i++) {
                 var contack = listContacks[i];
-                contackList[i] = createContack(contack.ConackName, i, "");
+                contackList[i] = createContack(contack.ConackName, i, "", contack.HeadIcon);
             }
             fullContacksOnHtmlAndInitMR();//将联系人填充至html
             setClickListenerForContackList();//设置监听
@@ -62,7 +65,7 @@ function fullContacksOnHtmlAndInitMR() {
     for (i = 0; i < length; i++) {
         var theContack = contackList[i];
         //填充页面联系人
-        var objLi = $('<li class="" style="background-image: url(Image/Main/img-sales7.jpg)">' +
+        var objLi = $('<li class="" style="background-image: url(' + theContack.headIcon + ')">' +
             '<div class="chat-name">' + theContack.name + '</div>' +
             '<div class="chat-content">' + theContack.lastMessage + '</div></li>');
         if (i == 0) {
@@ -144,21 +147,12 @@ function initMRByServer() {
 function setClickListenerForContackList() {
     var objPeopleLi = $(".chat-left-part ul li");
     objPeopleLi.click(function () {
+
         if ($(this).hasClass("has-notread-info")) {//如果该条目有未读标识
             $(this).removeClass("has-notread-info");//去除未读标识
             var contackName = $(this).find(".chat-name").text();
             //根据选择的Li对应的聊天对象用户名 和 当前用户的用户名 将原标记为为读的数据 标记为已读
-            $.ajax({
-                type: "get",
-                url: urlbase + "ChangeChatReadSign",
-                dataType: 'jsonp',
-                data: {
-                    "myName": myName,
-                    "contackName": contackName
-                },
-                success: function (data) {
-                }
-            });
+            updateChatsIsRead(contackName);
         }
 
         if ($(this).hasClass("active")) {
@@ -173,6 +167,21 @@ function setClickListenerForContackList() {
         }
     });
 }
+
+//根据联系人 设置消息已读
+function updateChatsIsRead(contackName) {
+    $.ajax({
+        type: "get",
+        url: urlbase + "ChangeChatReadSign",
+        dataType: 'jsonp',
+        data: {
+            "myName": myName,
+            "contackName": contackName
+        },
+        success: function (data) {
+        }
+    });
+} 
 
 //根据name获取聊天对象
 function getContackBaseOnName(name) {
@@ -270,14 +279,14 @@ function UpdateShowMessageBaseOnNowContack() {
 
 //添加我方信息
 function addMyMessageLi(msg) {
-    var objLi = $('<li class="chat-message-mine" style="background-image: url(Image/Main/img-sales7.jpg)"></li >');
+    var objLi = $('<li class="chat-message-mine" style="background-image: url(' + myIcon + ')"></li >');
     objLi.append($('<div>').text(msg))
     $(".chat-body ul").append(objLi);
 }
 
 //添加对方信息
 function addOtherMessageLi(msg) {
-    var objLi = $('<li class="chat-message-others" style="background-image: url(Image/Main/img-sales7.jpg)"></li >');
+    var objLi = $('<li class="chat-message-others" style="background-image: url(' + nowContack.headIcon + ')"></li >');
     objLi.append($('<div>').text(msg))
     $(".chat-body ul").append(objLi);
 }
@@ -340,8 +349,9 @@ function getUserInfo() {
             if (data.code == 1) {
                 var nickName = data.nickName
                 var icon = data.icon;
-                $(".my-nickname").text(nickName);
-                $(".my-icon").text(icon);
+                //$(".my-nickname").text(nickName);
+                $(".my-icon").attr("src", icon);
+                myIcon = icon;
                 myName = nickName;
                 //根据获取的用户名 获取联系人列表
                 getListContacks();
@@ -365,6 +375,15 @@ $(function () {
         } else {
             objLeft.removeClass("shrink");//展开
             objChat.removeClass("full");//收缩
+        }
+    });
+
+    //个人资料查看
+    $(".chat-mine").click(function () {
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
         }
     });
 
@@ -417,7 +436,8 @@ $(function () {
             addOtherMessageLi(msgContent);//将传回的数据填入聊天窗口
             setContackLastMsg(msgContent, nowContack);//将与当前联系的最后一条消息重置
             setNMsgNotTheContackTop(senderName, 1);//置顶该联系人
-            setScrollBottom();
+            setScrollBottom();//将聊天窗口的滚动条置底
+            updateChatsIsRead(nowContack.name);//即时接收到消息 设置已读
         } else {//如果发件人不为当前聊天对象
             myMessageRecords[senderName].push(createNewMessage(1, msgContent, 0));//将信息存入聊天记录类
             setContackLastMsg(msgContent, getContackBaseOnName(senderName));//设置联系人最后信息
