@@ -1,65 +1,60 @@
-﻿'use strict';
-var debug = require('debug');
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
+﻿var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+var session = require('express-session');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+var path = require('path');
+var pathName = __dirname;
 
-app.use('/', routes);
-app.use('/users', users);
+//全局变量
+var userSockets = {};//根据用户名保存socketId
+var sockets = {};//根据socketId获取socket
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.use(express.static(pathName));//静态资源文件目录设置
+
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/ChatOnline.html');
 });
 
-// error handlers
+//var routes = require('./ChatOnline.html');
+//app.use('/', routes);
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+//socket.io连接
+io.on('connection', function (socket) {
+    
+    //将当前用户的socket,id和用户名绑定
+    socket.on('init', function (name) {
+        userSockets[name] = socket.id;
+        sockets[socket.id] = socket;
+        console.log('a user connected socketid: ' + name + ':' + userSockets[name]);
     });
-}
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
+    //客户端断开事件
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });
+
+    //chat message事件接收
+    socket.on("chat message", function (msg) {//接收来自客户端的数据
+        //1.解析来自客户端的数据
+        var contackArray = msg.split(":");
+        var contackName = contackArray[0];//联系人姓名
+        var contackMsg = contackArray[1];//联系人信息
+        var senderName = contackArray[2];//发件人姓名 
+        var toSocketId = userSockets[contackName];//获取对应的socketId
+        //2.将该信息发送至指定联系人处
+        //var toSocket = _.findWhere(io.sockets.sockets, { id: toSocketId });//根据id获取指定的Socket
+        var toSocket = sockets[toSocketId];
+        //发送至客户端信息格式 senderName + ":" + contackName
+        if (!(toSocket == undefined)) 
+            toSocket.emit('chat message', senderName + ":" + contackMsg);
+        //io.emit('chat message', msg);//广播：将客户端数据发送至源客户端和其他客户端（用于聊天窗口）
     });
 });
 
-app.set('port', process.env.PORT || 3000);
-
-var server = app.listen(app.get('port'), function () {
-    debug('Express server listening on port ' + server.address().port);
+//设置监听端口
+http.listen(3000, function () {
+    console.log('listening on *:3000');
 });

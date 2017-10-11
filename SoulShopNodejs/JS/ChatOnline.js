@@ -6,6 +6,7 @@ var myIcon = null;//我的头像
 var contackList = [];//联系人数组
 var myMessageRecords = {};//聊天记录类
 var newMessageRecords = [];//与当前对象的新纪录数组
+//var urlbase = "http://www.pxsoul.cn/Shop/Shop/";
 var urlbase = "http://localhost:1898/Shop/Shop/";
 
 //新消息构造函数
@@ -20,13 +21,14 @@ function createNewMessage(type, msg, isRead) {
 }
 
 //联系人构造函数
-function createContack(name, order, lastMessage, headIcon) {
+function createContack(name, order, lastMessage, headIcon, nickName) {
 
     var contack = {
         name: name,
         order: order,
         lastMessage: lastMessage,
-        headIcon: headIcon
+        headIcon: headIcon,
+        nickName: nickName
     };
 
     return contack;
@@ -37,7 +39,7 @@ function getListContacks() {
 
     $.ajax({
         type: "get",
-        url: "http://localhost:1898/Shop/Shop/GetConackList",
+        url: urlbase + "GetConackList",
         dataType: 'jsonp',
         jsonp: 'callback',
         data: {
@@ -48,7 +50,11 @@ function getListContacks() {
             var length = listContacks.length;
             for (i = 0; i < length; i++) {
                 var contack = listContacks[i];
-                contackList[i] = createContack(contack.ConackName, i, "", contack.HeadIcon);
+                var headIcon = contack.HeadIcon;
+                if (headIcon == null || headIcon == "") {
+                    headIcon = "/Icon/NavView/店铺.png";
+                }
+                contackList[i] = createContack(contack.ConackName, i, "", headIcon, contack.ReNickName);
             }
             fullContacksOnHtmlAndInitMR();//将联系人填充至html
             setClickListenerForContackList();//设置监听
@@ -66,7 +72,7 @@ function fullContacksOnHtmlAndInitMR() {
         var theContack = contackList[i];
         //填充页面联系人
         var objLi = $('<li class="" style="background-image: url(' + theContack.headIcon + ')">' +
-            '<div class="chat-name">' + theContack.name + '</div>' +
+            '<div class="chat-name">' + theContack.nickName + '</div>' +
             '<div class="chat-content">' + theContack.lastMessage + '</div></li>');
         if (i == 0) {
             objLi.addClass("active");
@@ -97,7 +103,7 @@ function initMRByServer() {
 
     $.ajax({
         type: "get",
-        url: "http://localhost:1898/Shop/Shop/GetChatItemsByContacks",
+        url: urlbase + "GetChatItemsByContacks",
         dataType: 'jsonp',
         data: {
             "contacksName": contacksName
@@ -202,7 +208,7 @@ function changeNowContack(name) {
     var length = contackList.length;
 
     for (i = 0; i < length; i++) {
-        if (contackList[i].name === name) {//找到该对象
+        if (contackList[i].nickName === name) {//找到该对象
             nowContack = contackList[i];
         }
     }
@@ -225,7 +231,7 @@ function sendMessageToContack() {
 function saveTheMsgToServer(contackName, myName, contents) {
     $.ajax({
         type: "get",
-        url: "http://localhost:1898/Shop/Shop/SaveMsgToServer",
+        url: urlbase + "SaveMsgToServer",
         dataType: 'jsonp',
         jsonp: 'callback',
         data: {
@@ -261,6 +267,10 @@ function saveNewMessagesToMyData() {
 
 //根据当前聊天对象取数据刷新聊天记录
 function UpdateShowMessageBaseOnNowContack() {
+    if (nowContack == undefined) {
+        return;
+    }
+
     $(".chat-body ul li").remove();//删除原窗口中的聊天数据
     //根据聊天记录类中保存数据 填充聊天窗口
     var nowContackMessages = myMessageRecords[nowContack.name];
@@ -342,7 +352,7 @@ function setContackLastMsg(msg/*字符串msg*/, contack/*联系人对象*/) {
 function getUserInfo() {
     $.ajax({
         type: "get",
-        url: "http://localhost:1898/Shop/Shop/GetUserInfo",
+        url: urlbase + "GetUserInfo",
         dataType: 'jsonp',
         jsonp: 'callback',
         success: function (data) {
@@ -352,6 +362,9 @@ function getUserInfo() {
                 //$(".my-nickname").text(nickName);
                 $(".my-icon").attr("src", icon);
                 myIcon = icon;
+                if (myIcon == "" || myIcon == undefined || myIcon == null) {
+                    myIcon = "/Icon/NavView/店铺.png";
+                }
                 myName = nickName;
                 //根据获取的用户名 获取联系人列表
                 getListContacks();

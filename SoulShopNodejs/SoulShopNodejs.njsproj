@@ -5,6 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>SoulShopNodejs</Name>
     <RootNamespace>SoulShopNodejs</RootNamespace>
+    <NameOfLastUsedPublishProfile>WebConfig</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -12,7 +13,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>b1026614-f9db-41a3-8a6c-51c33f08819f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>index.js</StartupFile>
+    <StartupFile>app.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -29,8 +30,8 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app.js" />
-    <Compile Include="index.js">
+    <Compile Include="backup\app.js" />
+    <Compile Include="app.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="JS\bootstrap.js" />
@@ -51,6 +52,7 @@
     <Content Include="Icon\ChatOnline\文件.png" />
     <Content Include="Icon\ChatOnline\笑脸.png" />
     <Content Include="Icon\ChatOnline\联系人.png" />
+    <Content Include="Icon\ChatOnline\资料.png" />
     <Content Include="Icon\Cover\arrow-down.png" />
     <Content Include="Icon\Cover\arrow-up.png" />
     <Content Include="Icon\Cover\choose-button-active.png" />
@@ -70,6 +72,7 @@
     <Content Include="Icon\Main\陶艺.png" />
     <Content Include="Icon\NavView\search-fff.png" />
     <Content Include="Icon\NavView\search.png" />
+    <Content Include="Icon\NavView\店铺.png" />
     <Content Include="Icon\ProductList\arrow-down.png" />
     <Content Include="Icon\ProductList\arrow-up.png" />
     <Content Include="Icon\ProductList\勾.png" />
@@ -122,6 +125,7 @@
     <Content Include="views\index.pug" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />
+    <None Include="WebConfig.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CSS\" />
@@ -139,6 +143,7 @@
     <Folder Include="Image\NavView\" />
     <Folder Include="Image\ProductList\" />
     <Folder Include="JS\" />
+    <Folder Include="backup\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
